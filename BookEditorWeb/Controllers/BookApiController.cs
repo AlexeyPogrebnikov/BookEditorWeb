@@ -14,5 +14,11 @@ namespace BookEditorWeb.Controllers
 		{
 			return _bookRepository.GetAll();
 		}
+
+		[HttpPost]
+		public void Remove(DeleteBookRequest request)
+		{
+			_bookRepository.Remove(request.BookId);
+		}
 	}
 }

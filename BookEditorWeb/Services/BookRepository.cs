@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using BookEditorWeb.Helpers;
 using BookEditorWeb.Models;
@@ -65,6 +66,11 @@ namespace BookEditorWeb.Services
 		private static string GetBookImagePath(int bookId)
 		{
 			return HttpContext.Current.Server.MapPath(string.Format("~/Content/img/books/{0}.jpg", bookId));
+		}
+
+		public void Remove(int id)
+		{
+			Books.Remove(Books.FirstOrDefault(book => book.Id == id));
 		}
 	}
 }
