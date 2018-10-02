@@ -22,3 +22,7 @@
 .add-author {
 	margin-right: 5px;
 }
+
+.ui-jqgrid tr.jqgrow td {
+	vertical-align: middle !important
+}

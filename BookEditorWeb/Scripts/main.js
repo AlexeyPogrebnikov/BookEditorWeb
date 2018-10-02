@@ -94,10 +94,10 @@ $(function() {
 					edittype: "custom",
 					editoptions: { custom_element: createAuthorEditor, custom_value: getAuthors }
 				},
-				{ name: "NumberOfPages", index: "NumberOfPages" },
+				{ name: "NumberOfPages", index: "NumberOfPages", align: "center" },
 				{ name: "Publisher", index: "Publisher" },
-				{ name: "PublicationYear", index: "PublicationYear" },
-				{ name: "Isbn", index: "Isbn" },
+				{ name: "PublicationYear", index: "PublicationYear", align: "center" },
+				{ name: "Isbn", index: "Isbn", align: "center" },
 				{ name: "Image", index: "Image", formatter: imageFormatter }
 			],
 			pager: "#book-list-navigator",
@@ -105,7 +105,12 @@ $(function() {
 		})
 		.navGrid("#book-list-navigator",
 			{ view: true, del: true },
-			{},
+			{
+				width: 650,
+				modal: true,
+				left: 100,
+				top: 100
+			},
 			{
 				url: "/api/BookApi/Add",
 				width: 650,
