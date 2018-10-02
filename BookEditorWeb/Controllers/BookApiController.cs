@@ -15,6 +15,15 @@ namespace BookEditorWeb.Controllers
 			return _bookRepository.GetAll();
 		}
 
+		public void Add(AddBookRequest request)
+		{
+			_bookRepository.Add(new Book
+			{
+				Title = request.Title,
+				Authors = request.Authors
+			});
+		}
+
 		[HttpPost]
 		public void Remove(DeleteBookRequest request)
 		{

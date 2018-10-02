@@ -8,7 +8,7 @@ namespace BookEditorWeb.Services
 {
 	public class BookRepository
 	{
-		private static readonly IList<Book> Books = new List<Book>();
+		private static readonly IList<Book> Books;
 
 		static BookRepository()
 		{
@@ -58,6 +58,11 @@ namespace BookEditorWeb.Services
 			};
 		}
 
+		public void Add(Book book)
+		{
+			Books.Add(book);
+		}
+
 		public IEnumerable<Book> GetAll()
 		{
 			return Books;
@@ -65,7 +70,7 @@ namespace BookEditorWeb.Services
 
 		private static string GetBookImagePath(int bookId)
 		{
-			return HttpContext.Current.Server.MapPath(string.Format("~/Content/img/books/{0}.jpg", bookId));
+			return HttpContext.Current.Server.MapPath($"~/Content/img/books/{bookId}.jpg");
 		}
 
 		public void Remove(int id)

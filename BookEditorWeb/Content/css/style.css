@@ -1,0 +1,24 @@
+﻿.author-editor-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.author-full-name {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-right: 15px;
+}
+
+.author-first-name-caption {
+	margin-right: 5px;
+}
+
+.author-last-name-caption {
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.add-author {
+	margin-right: 5px;
+}
