@@ -1,6 +1,17 @@
 ﻿"use strict";
 
 $(function() {
+	function setSorting(jqgridOptions) {
+		const sortname = localStorage.getItem("sortname");
+		if (sortname) {
+			jqgridOptions.sortname = sortname;
+		}
+		const sortorder = localStorage.getItem("sortorder");
+		if (sortorder) {
+			jqgridOptions.sortorder = sortorder;
+		}
+	}
+
 	function addAuthorRow(container, author) {
 		const html = `
 <div class="author-editor-row">
@@ -85,7 +96,7 @@ $(function() {
 		return element;
 	}
 
-	function getAuthors(elem, operation, value) {
+	function getAuthors(elem) {
 		if (elem.length === 0)
 			return "";
 
@@ -102,40 +113,48 @@ $(function() {
 		return authors;
 	}
 
-	$("#book-list").jqGrid({
-			url: "/api/BookApi/GetAll",
-			datatype: "json",
-			colNames: [
-				"Id", "Заголовок", "Список авторов", "Authors_Raw", "Количество страниц", "Название издательства",
-				"Год публикации",
-				"ISBN", "Изображение"
-			],
-			colModel: [
-				{ name: "Id", index: "Id", hidden: true },
-				{ name: "Title", index: "Title", editable: true, edittype: "text", editoptions: { maxlength: 30 } },
-				{
-					name: "Authors",
-					index: "Authors",
-					formatter: authorsFormatter,
-					editable: true,
-					edittype: "custom",
-					editoptions: { custom_element: createAuthorEditor, custom_value: getAuthors }
-				},
-				{
-					name: "Authors_Raw",
-					jsonmap: "Authors",
-					hidden: true,
-					formatter: authorsRawFormatter
-				},
-				{ name: "NumberOfPages", index: "NumberOfPages", align: "center" },
-				{ name: "Publisher", index: "Publisher" },
-				{ name: "PublicationYear", index: "PublicationYear", align: "center" },
-				{ name: "Isbn", index: "Isbn", align: "center" },
-				{ name: "Image", index: "Image", formatter: imageFormatter }
-			],
-			pager: "#book-list-navigator",
-			height: "auto"
-		})
+	const jqgridOptions = {
+		url: "/api/BookApi/GetAll",
+		datatype: "json",
+		colNames: [
+			"Id", "Заголовок", "Список авторов", "Authors_Raw", "Количество страниц", "Название издательства",
+			"Год публикации",
+			"ISBN", "Изображение"
+		],
+		colModel: [
+			{ name: "Id", hidden: true },
+			{ name: "Title", index: "Title", editable: true, edittype: "text", editoptions: { maxlength: 30 } },
+			{
+				name: "Authors",
+				formatter: authorsFormatter,
+				editable: true,
+				edittype: "custom",
+				editoptions: { custom_element: createAuthorEditor, custom_value: getAuthors },
+				sortable: false
+			},
+			{
+				name: "Authors_Raw",
+				jsonmap: "Authors",
+				hidden: true,
+				formatter: authorsRawFormatter
+			},
+			{ name: "NumberOfPages", editable: true, align: "center", sortable: false },
+			{ name: "Publisher", editable: true, sortable: false },
+			{ name: "PublicationYear", index: "PublicationYear", align: "center" },
+			{ name: "Isbn", editable: true, align: "center", sortable: false },
+			{ name: "Image", editable: true, formatter: imageFormatter, sortable: false }
+		],
+		pager: "#book-list-navigator",
+		height: "auto",
+		onSortCol: function(index, iCol, sortorder) {
+			localStorage.setItem("sortname", index);
+			localStorage.setItem("sortorder", sortorder);
+		}
+	};
+
+	setSorting(jqgridOptions);
+
+	$("#book-list").jqGrid(jqgridOptions)
 		.navGrid("#book-list-navigator",
 			{ view: true, del: true, search: false },
 			{

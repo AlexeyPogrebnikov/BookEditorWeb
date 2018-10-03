@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using BookEditorWeb.Extensions;
 using BookEditorWeb.Models;
 using BookEditorWeb.Services;
 
@@ -10,9 +11,11 @@ namespace BookEditorWeb.Controllers
 		private readonly BookRepository _bookRepository = new BookRepository();
 
 		[HttpGet]
-		public IEnumerable<Book> GetAll()
+		public IEnumerable<Book> GetAll(string sidx, SortDirection sord)
 		{
-			return _bookRepository.GetAll();
+			IEnumerable<Book> books = _bookRepository.GetAll();
+
+			return books.Sort(sidx, sord);
 		}
 
 		public void Add(AddBookRequest request)
