@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 $(function() {
-	function addAuthorRow(container) {
+	function addAuthorRow(container, author) {
 		const html = `
 <div class="author-editor-row">
 	<div class="author-full-name">
@@ -14,19 +14,26 @@ $(function() {
 	<button class="remove-author">Удалить</button>
 </div>
 `;
+		if (author) {
+			const authorEditorRow = $(html);
+			$(authorEditorRow).find(".author-first-name").val(author.FirstName);
+			$(authorEditorRow).find(".author-last-name").val(author.LastName);
+			container.append(authorEditorRow);
+			return;
+		}
 		container.append(html);
 	}
 
 	$(document).on("click",
 		".add-author",
-		function () {
+		function() {
 			addAuthorRow($("#author-editor"));
 		});
 
 	$(document).on("click",
 		".remove-author",
-		function () {
-			let authorEditorRowCount = $(this).parent().parent().find(".author-editor-row").length;
+		function() {
+			const authorEditorRowCount = $(this).parent().parent().find(".author-editor-row").length;
 			if (authorEditorRowCount > 1)
 				$(this).parent().remove();
 		});
@@ -38,6 +45,10 @@ $(function() {
 				authors += author.FirstName + " " + author.LastName + "<br>";
 			});
 		return authors;
+	}
+
+	function authorsRawFormatter(cellvalue) {
+		return JSON.stringify(cellvalue);
 	}
 
 	function imageFormatter(cellvalue) {
@@ -55,7 +66,11 @@ $(function() {
 </div>
 			`;
 		const element = $(html);
-		addAuthorRow(element.find("#author-editor"));
+		const authorsRaw = $("#book-list").getCell(options.rowId, "Authors_Raw");
+		const authors = JSON.parse(authorsRaw);
+		authors.forEach(function(author) {
+			addAuthorRow(element.find("#author-editor"), author);
+		});
 		return element;
 	}
 
@@ -80,7 +95,8 @@ $(function() {
 			url: "/api/BookApi/GetAll",
 			datatype: "json",
 			colNames: [
-				"Id", "Заголовок", "Список авторов", "Количество страниц", "Название издательства", "Год публикации",
+				"Id", "Заголовок", "Список авторов", "Authors_Raw", "Количество страниц", "Название издательства",
+				"Год публикации",
 				"ISBN", "Изображение"
 			],
 			colModel: [
@@ -93,6 +109,12 @@ $(function() {
 					editable: true,
 					edittype: "custom",
 					editoptions: { custom_element: createAuthorEditor, custom_value: getAuthors }
+				},
+				{
+					name: "Authors_Raw",
+					jsonmap: "Authors",
+					hidden: true,
+					formatter: authorsRawFormatter
 				},
 				{ name: "NumberOfPages", index: "NumberOfPages", align: "center" },
 				{ name: "Publisher", index: "Publisher" },
@@ -109,7 +131,8 @@ $(function() {
 				width: 650,
 				modal: true,
 				left: 100,
-				top: 100
+				top: 100,
+				viewPagerButtons: false
 			},
 			{
 				url: "/api/BookApi/Add",
