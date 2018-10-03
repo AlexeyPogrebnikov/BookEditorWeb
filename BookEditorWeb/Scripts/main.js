@@ -66,11 +66,22 @@ $(function() {
 </div>
 			`;
 		const element = $(html);
-		const authorsRaw = $("#book-list").getCell(options.rowId, "Authors_Raw");
-		const authors = JSON.parse(authorsRaw);
+		let authors = [
+			{
+				FirstName: "",
+				LastName: ""
+			}
+		];
+
+		if (options.rowId !== "_empty") {
+			const authorsRaw = $("#book-list").getCell(options.rowId, "Authors_Raw");
+			authors = JSON.parse(authorsRaw);
+		}
+
 		authors.forEach(function(author) {
 			addAuthorRow(element.find("#author-editor"), author);
 		});
+
 		return element;
 	}
 
