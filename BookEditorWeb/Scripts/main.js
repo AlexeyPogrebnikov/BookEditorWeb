@@ -126,7 +126,7 @@ $(function() {
 			height: "auto"
 		})
 		.navGrid("#book-list-navigator",
-			{ view: true, del: true },
+			{ view: true, del: true, search: false },
 			{
 				width: 650,
 				modal: true,
