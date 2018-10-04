@@ -23,7 +23,11 @@ namespace BookEditorWeb.Controllers
 			_bookRepository.Add(new Book
 			{
 				Title = request.Title,
-				Authors = request.Authors
+				Authors = request.Authors,
+				NumberOfPages = request.NumberOfPages,
+				Publisher = request.Publisher,
+				PublicationYear = request.PublicationYear,
+				Isbn = request.Isbn
 			});
 		}
 

@@ -12,14 +12,60 @@ $(function() {
 		}
 	}
 
+	function isInteger(str) {
+		return /^\+?(0|[1-9]\d*)$/.test(str);
+	}
+
+	function isEmptyOrWhiteSpace(str) {
+		return str == null || str.match(/^ *$/) !== null;
+	}
+
+	function validateAuthors(value) {
+		for (let i = 0; i < value.length; i++) {
+			if (isEmptyOrWhiteSpace(value[i].FirstName)) {
+				return [false, "Имя автора обязательно для заполнения"];
+			}
+			if (isEmptyOrWhiteSpace(value[i].LastName)) {
+				return [false, "Фамилия автора обязательна для заполнения"];
+			}
+		}
+		return [true, ""];
+	}
+
+	function validateNumberOfPages(value) {
+		if (!isInteger(value)) {
+			return [false, "Количество страниц должно быть целым числом"];
+		}
+		const numberOfPages = parseInt(value);
+		if (numberOfPages <= 0 || numberOfPages > 10000) {
+			return [false, "Количество страниц должно быть больше 0 и не более 10000"];
+		}
+		return [true, ""];
+	}
+
+	function validatePublicationYear(value) {
+		if (isEmptyOrWhiteSpace(value)) {
+			return [true, ""];
+		}
+
+		if (!isInteger(value)) {
+			return [false, "Год публикации должен быть целым числом"];
+		}
+		const publicationYear = parseInt(value);
+		if (publicationYear < 1800) {
+			return [false, "Год публикации должeн быть не раньше 1800"];
+		}
+		return [true, ""];
+	}
+
 	function addAuthorRow(container, author) {
 		const html = `
 <div class="author-editor-row">
 	<div class="author-full-name">
 		<span class="author-first-name-caption">Имя:</span>
-		<input type="text" class="author-first-name FormElement ui-widget-content ui-corner-all" />
+		<input type="text" class="author-first-name FormElement ui-widget-content ui-corner-all" maxlength="20" />
 		<span class="author-last-name-caption">Фамилия:</span>
-		<input type="text" class="author-last-name FormElement ui-widget-content ui-corner-all" />
+		<input type="text" class="author-last-name FormElement ui-widget-content ui-corner-all" maxlength="20" />
 	</div>
 	<button class="add-author">Добавить</button>
 	<button class="remove-author">Удалить</button>
@@ -123,14 +169,22 @@ $(function() {
 		],
 		colModel: [
 			{ name: "Id", hidden: true },
-			{ name: "Title", index: "Title", editable: true, edittype: "text", editoptions: { maxlength: 30 } },
+			{
+				name: "Title",
+				index: "Title",
+				editable: true,
+				edittype: "text",
+				editoptions: { maxlength: 30 },
+				editrules: { required: true }
+			},
 			{
 				name: "Authors",
 				formatter: authorsFormatter,
 				editable: true,
 				edittype: "custom",
 				editoptions: { custom_element: createAuthorEditor, custom_value: getAuthors },
-				sortable: false
+				sortable: false,
+				editrules: { custom: true, custom_func: validateAuthors }
 			},
 			{
 				name: "Authors_Raw",
@@ -138,9 +192,21 @@ $(function() {
 				hidden: true,
 				formatter: authorsRawFormatter
 			},
-			{ name: "NumberOfPages", editable: true, align: "center", sortable: false },
-			{ name: "Publisher", editable: true, sortable: false },
-			{ name: "PublicationYear", index: "PublicationYear", align: "center" },
+			{
+				name: "NumberOfPages",
+				editable: true,
+				align: "center",
+				sortable: false,
+				editrules: { required: true, custom: true, custom_func: validateNumberOfPages }
+			},
+			{ name: "Publisher", editable: true, sortable: false, editoptions: { maxlength: 30 } },
+			{
+				name: "PublicationYear",
+				index: "PublicationYear",
+				editable: true,
+				align: "center",
+				editrules: { custom: true, custom_func: validatePublicationYear }
+			},
 			{ name: "Isbn", editable: true, align: "center", sortable: false },
 			{ name: "Image", editable: true, formatter: imageFormatter, sortable: false }
 		],
