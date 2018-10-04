@@ -8,64 +8,75 @@ namespace BookEditorWeb.Services
 {
 	public class BookRepository
 	{
-		private static readonly IList<Book> Books;
+		private static readonly IList<Book> Books = new List<Book>();
+		private static readonly object SyncRoot = new object();
+		private static int _currentId = 1;
 
 		static BookRepository()
 		{
-			Books = new List<Book>
+			AddInternal(new Book
 			{
-				new Book
+				Title = "Атлант расправил плечи",
+				Authors = new[]
 				{
-					Id = 1,
-					Title = "Атлант расправил плечи",
-					Authors = new[]
+					new Author
 					{
-						new Author
-						{
-							FirstName = "Айн",
-							LastName = "Рэнд"
-						}
-					},
-					NumberOfPages = 1131,
-					Publisher = "Альпина Паблишер",
-					PublicationYear = 2018,
-					Isbn = "978-5-9614-4579-4",
-					Image = ImageToBase64Converter.Convert(GetBookImagePath(1))
+						FirstName = "Айн",
+						LastName = "Рэнд"
+					}
 				},
-				new Book
+				NumberOfPages = 1131,
+				Publisher = "Альпина Паблишер",
+				PublicationYear = 2018,
+				Isbn = "978-5-9614-4579-4",
+				Image = ImageToBase64Converter.Convert(GetBookImagePath(1))
+			});
+
+			AddInternal(new Book
+			{
+				Title = "Пикник на обочине",
+				Authors = new[]
 				{
-					Id = 2,
-					Title = "Пикник на обочине",
-					Authors = new[]
+					new Author
 					{
-						new Author
-						{
-							FirstName = "Аркадий",
-							LastName = "Стругацкий"
-						},
-						new Author
-						{
-							FirstName = "Борис",
-							LastName = "Стругацкий"
-						}
+						FirstName = "Аркадий",
+						LastName = "Стругацкий"
 					},
-					NumberOfPages = 256,
-					Publisher = "АСТ, Neoclassic",
-					PublicationYear = 2007,
-					Isbn = "978-5-17-045438-9",
-					Image = null
-				}
-			};
+					new Author
+					{
+						FirstName = "Борис",
+						LastName = "Стругацкий"
+					}
+				},
+				NumberOfPages = 256,
+				Publisher = "АСТ, Neoclassic",
+				PublicationYear = 2007,
+				Isbn = "978-5-17-045438-9",
+				Image = null
+			});
+		}
+
+		private static void AddInternal(Book book)
+		{
+			lock (SyncRoot)
+			{
+				book.Id = _currentId;
+				Books.Add(book);
+				_currentId++;
+			}
 		}
 
 		public void Add(Book book)
 		{
-			Books.Add(book);
+			AddInternal(book);
 		}
 
 		public IEnumerable<Book> GetAll()
 		{
-			return Books;
+			lock (SyncRoot)
+			{
+				return Books;
+			}
 		}
 
 		private static string GetBookImagePath(int bookId)
@@ -75,7 +86,10 @@ namespace BookEditorWeb.Services
 
 		public void Remove(int id)
 		{
-			Books.Remove(Books.FirstOrDefault(book => book.Id == id));
+			lock (SyncRoot)
+			{
+				Books.Remove(Books.FirstOrDefault(book => book.Id == id));
+			}
 		}
 	}
 }
