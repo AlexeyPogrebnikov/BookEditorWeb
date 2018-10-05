@@ -58,6 +58,10 @@ $(function() {
 		return [true, ""];
 	}
 
+	function addBookErrorHandler(data) {
+		return data.responseJSON.Message;
+	}
+
 	function addAuthorRow(container, author) {
 		const html = `
 <div class="author-editor-row">
@@ -236,7 +240,8 @@ $(function() {
 				modal: true,
 				left: 100,
 				top: 100,
-				recreateForm: true
+				recreateForm: true,
+				errorTextFormat: addBookErrorHandler
 			},
 			{
 				url: "/api/BookApi/Remove",

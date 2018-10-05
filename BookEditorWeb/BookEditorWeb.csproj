@@ -133,6 +133,8 @@
     <Compile Include="Models\SortDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BookRepository.cs" />
+    <Compile Include="Services\Validation\BookValidator.cs" />
+    <Compile Include="Services\Validation\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
