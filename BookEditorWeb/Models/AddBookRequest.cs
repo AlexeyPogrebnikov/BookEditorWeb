@@ -15,5 +15,7 @@ namespace BookEditorWeb.Models
 		public int? PublicationYear { get; set; }
 
 		public string Isbn { get; set; }
+
+		public int? ImageId { get; set; }
 	}
 }

@@ -18,6 +18,6 @@ namespace BookEditorWeb.Models
 
 		public string Isbn { get; set; }
 
-		public string Image { get; set; }
+		public int? ImageId { get; set; }
 	}
 }

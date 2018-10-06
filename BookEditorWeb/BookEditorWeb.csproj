@@ -121,6 +121,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BookApiController.cs" />
     <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\BookImageController.cs" />
     <Compile Include="Extensions\BookSortExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -129,9 +130,11 @@
     <Compile Include="Models\AddBookRequest.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookImage.cs" />
     <Compile Include="Models\DeleteBookRequest.cs" />
     <Compile Include="Models\SortDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BookImageRepository.cs" />
     <Compile Include="Services\BookRepository.cs" />
     <Compile Include="Services\Validation\BookValidator.cs" />
     <Compile Include="Services\Validation\ValidationResult.cs" />

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using BookEditorWeb.Helpers;
 using BookEditorWeb.Models;
 
 namespace BookEditorWeb.Services
@@ -12,51 +11,7 @@ namespace BookEditorWeb.Services
 		private static readonly object SyncRoot = new object();
 		private static int _currentId = 1;
 
-		static BookRepository()
-		{
-			AddInternal(new Book
-			{
-				Title = "Атлант расправил плечи",
-				Authors = new[]
-				{
-					new Author
-					{
-						FirstName = "Айн",
-						LastName = "Рэнд"
-					}
-				},
-				NumberOfPages = 1131,
-				Publisher = "Альпина Паблишер",
-				PublicationYear = 2018,
-				Isbn = "978-5-9614-4579-4",
-				Image = ImageToBase64Converter.Convert(GetBookImagePath(1))
-			});
-
-			AddInternal(new Book
-			{
-				Title = "Пикник на обочине",
-				Authors = new[]
-				{
-					new Author
-					{
-						FirstName = "Аркадий",
-						LastName = "Стругацкий"
-					},
-					new Author
-					{
-						FirstName = "Борис",
-						LastName = "Стругацкий"
-					}
-				},
-				NumberOfPages = 256,
-				Publisher = "АСТ, Neoclassic",
-				PublicationYear = 2007,
-				Isbn = "978-5-17-045438-9",
-				Image = null
-			});
-		}
-
-		private static void AddInternal(Book book)
+		public void Add(Book book)
 		{
 			lock (SyncRoot)
 			{
@@ -64,11 +19,6 @@ namespace BookEditorWeb.Services
 				Books.Add(book);
 				_currentId++;
 			}
-		}
-
-		public void Add(Book book)
-		{
-			AddInternal(book);
 		}
 
 		public IEnumerable<Book> GetAll()

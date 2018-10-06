@@ -23,6 +23,7 @@ namespace BookEditorWeb.Controllers
 			return books.Sort(sidx, sord);
 		}
 
+		[HttpPost]
 		public HttpResponseMessage Add(AddBookRequest request)
 		{
 			var book = new Book
@@ -32,7 +33,8 @@ namespace BookEditorWeb.Controllers
 				NumberOfPages = request.NumberOfPages,
 				Publisher = request.Publisher,
 				PublicationYear = request.PublicationYear,
-				Isbn = request.Isbn
+				Isbn = request.Isbn,
+				ImageId = request.ImageId
 			};
 
 			ValidationResult validationResult = _bookValidator.Validate(book);

@@ -114,7 +114,7 @@ $(function() {
 
 	function imageFormatter(cellvalue) {
 		if (cellvalue) {
-			return `<img src="data:image/jpeg;base64,${cellvalue}" />`;
+			return `<img src="/BookImage/GetById/${cellvalue}" />`;
 		}
 		return "";
 	}
@@ -161,6 +161,45 @@ $(function() {
 			});
 		});
 		return authors;
+	}
+
+	$(document).on("change",
+		"#book-image-file",
+		function() {
+			const formData = new FormData();
+			formData.append("imageId", $("#book-image-id").val());
+			formData.append("image", $("#book-image-file")[0].files[0]);
+			$.ajax({
+				url: "/BookImage/Upload",
+				data: formData,
+				type: "POST",
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					const html = `<img src="/BookImage/GetById/${data}" />`;
+					$("#book-image-canvas").html(html);
+					$("#book-image-id").val(data);
+				}
+			});
+		});
+
+	function createImageUploader(value, options) {
+		return `
+<div>
+	<div id="book-image-editor">
+		<input type="file" id="book-image-file" />
+		<input type="hidden" id="book-image-id" />
+		<div id="book-image-canvas"></div>
+	</div>
+</div>
+`;
+	}
+
+	function getImageId(elem) {
+		if (elem.length === 0)
+			return "";
+
+		return $(elem).find("#book-image-id").val();
 	}
 
 	const jqgridOptions = {
@@ -212,7 +251,14 @@ $(function() {
 				editrules: { custom: true, custom_func: validatePublicationYear }
 			},
 			{ name: "Isbn", editable: true, align: "center", sortable: false },
-			{ name: "Image", editable: true, formatter: imageFormatter, sortable: false }
+			{
+				name: "ImageId",
+				editable: true,
+				formatter: imageFormatter,
+				edittype: "custom",
+				editoptions: { custom_element: createImageUploader, custom_value: getImageId },
+				sortable: false
+			}
 		],
 		pager: "#book-list-navigator",
 		height: "auto",
@@ -221,7 +267,6 @@ $(function() {
 			localStorage.setItem("sortorder", sortorder);
 		}
 	};
-
 	setSorting(jqgridOptions);
 
 	$("#book-list").jqGrid(jqgridOptions)
