@@ -173,7 +173,10 @@
     <Compile Include="Sample\ISampleDataGenerator.cs" />
     <Compile Include="Sample\SampleDataGenerator.cs" />
     <Compile Include="Services\IEmbeddedResourceService.cs" />
+    <Compile Include="Validation\BookAuthorsValidator.cs" />
+    <Compile Include="Validation\BookTitleValidator.cs" />
     <Compile Include="Validation\BookValidator.cs" />
+    <Compile Include="Validation\IBookPropertyValidator.cs" />
     <Compile Include="Validation\IBookValidator.cs" />
     <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>

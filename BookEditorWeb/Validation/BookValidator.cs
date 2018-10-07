@@ -1,28 +1,32 @@
-﻿using BookEditorWeb.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BookEditorWeb.Models;
 
 namespace BookEditorWeb.Validation
 {
 	public class BookValidator : IBookValidator
 	{
+		private readonly IEnumerable<IBookPropertyValidator> _propertyValidators;
+
+		public BookValidator(IEnumerable<IBookPropertyValidator> propertyValidators)
+		{
+			_propertyValidators = propertyValidators
+				.OrderBy(propertyValidator => propertyValidator.Order)
+				.ToArray();
+		}
+
 		public ValidationResult Validate(Book book)
 		{
 			var validationResult = new ValidationResult();
 
-			ValidateTitle(book, validationResult);
-
-			return validationResult;
-		}
-
-		private static void ValidateTitle(Book book, ValidationResult validationResult)
-		{
-			if (string.IsNullOrWhiteSpace(book.Title))
+			foreach (IBookPropertyValidator propertyValidator in _propertyValidators)
 			{
-				validationResult.AddError("Заголовок: Поле является обязательным");
-				return;
+				propertyValidator.Validate(book, validationResult);
+				if (!validationResult.IsValid)
+					return validationResult;
 			}
 
-			if (book.Title.Length > 30)
-				validationResult.AddError("Заголовок: Поле должно быть не более 30 символов");
+			return validationResult;
 		}
 	}
 }

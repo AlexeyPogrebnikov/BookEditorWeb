@@ -4,3 +4,5 @@
 /BookEditorWeb/BookEditorWeb.csproj.user
 /BookEditorWeb/bin/
 /BookEditorWeb/obj/
+/BookEditorWeb.Tests/bin/
+/BookEditorWeb.Tests/obj/

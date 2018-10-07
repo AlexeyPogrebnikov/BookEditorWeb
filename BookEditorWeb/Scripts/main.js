@@ -23,10 +23,10 @@ $(function() {
 	function validateAuthors(value) {
 		for (let i = 0; i < value.length; i++) {
 			if (isEmptyOrWhiteSpace(value[i].FirstName)) {
-				return [false, "Имя автора обязательно для заполнения"];
+				return [false, "Список авторов: Имя автора обязательно для заполнения"];
 			}
 			if (isEmptyOrWhiteSpace(value[i].LastName)) {
-				return [false, "Фамилия автора обязательна для заполнения"];
+				return [false, "Список авторов: Фамилия автора обязательна для заполнения"];
 			}
 		}
 		return [true, ""];
@@ -34,11 +34,11 @@ $(function() {
 
 	function validateNumberOfPages(value) {
 		if (!isInteger(value)) {
-			return [false, "Количество страниц должно быть целым числом"];
+			return [false, "Количество страниц: Поле должно быть целым числом"];
 		}
 		const numberOfPages = parseInt(value);
 		if (numberOfPages <= 0 || numberOfPages > 10000) {
-			return [false, "Количество страниц должно быть больше 0 и не более 10000"];
+			return [false, "Количество страниц: Поле должно быть больше 0 и не более 10000"];
 		}
 		return [true, ""];
 	}

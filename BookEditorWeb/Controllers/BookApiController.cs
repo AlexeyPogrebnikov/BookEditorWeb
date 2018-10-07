@@ -15,9 +15,9 @@ namespace BookEditorWeb.Controllers
 	{
 		private readonly IBookImageRepository _bookImageRepository;
 		private readonly IBookRepository _bookRepository;
-		private readonly BookValidator _bookValidator;
+		private readonly IBookValidator _bookValidator;
 
-		public BookApiController(IBookRepository bookRepository, IBookImageRepository bookImageRepository, BookValidator bookValidator)
+		public BookApiController(IBookRepository bookRepository, IBookImageRepository bookImageRepository, IBookValidator bookValidator)
 		{
 			_bookRepository = bookRepository;
 			_bookImageRepository = bookImageRepository;
