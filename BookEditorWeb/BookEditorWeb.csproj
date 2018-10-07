@@ -136,6 +136,9 @@
     <Content Include="Content\css\ui.jqgrid.css" />
     <Content Include="Global.asax" />
     <EmbeddedResource Include="Sample\atlas_shrugged.jpg" />
+    <EmbeddedResource Include="Sample\secrets_of_the_javascript_ninja.jpg" />
+    <EmbeddedResource Include="Sample\code_complete.jpg" />
+    <EmbeddedResource Include="Sample\design_patterns.jpg" />
     <Content Include="Scripts\lib\grid.locale-ru.js" />
     <Content Include="Scripts\lib\jquery-3.3.1.min.js" />
     <Content Include="Scripts\lib\jquery.jqGrid.min.js" />

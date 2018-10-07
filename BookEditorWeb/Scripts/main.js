@@ -114,7 +114,7 @@ $(function() {
 
 	function imageFormatter(cellvalue) {
 		if (cellvalue) {
-			return `<img src="/BookImage/GetById/${cellvalue}" />`;
+			return `<img src="/BookImage/GetById/${cellvalue}" class="book-grid-image" />`;
 		}
 		return "";
 	}
@@ -268,7 +268,8 @@ $(function() {
 				formatter: imageFormatter,
 				edittype: "custom",
 				editoptions: { custom_element: createImageUploader, custom_value: getImageId },
-				sortable: false
+				sortable: false,
+				width: 250
 			},
 			{
 				name: "ImageId_Json",
