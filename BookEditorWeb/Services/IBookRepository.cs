@@ -5,9 +5,9 @@ namespace BookEditorWeb.Services
 {
 	public interface IBookRepository
 	{
-		void Add(Book book);
-		IEnumerable<Book> GetAll();
-		void Remove(int id);
 		Book GetById(int id);
+		IEnumerable<Book> GetAll();
+		void Save(Book book);
+		void Remove(int id);
 	}
 }

@@ -31,7 +31,7 @@ namespace BookEditorWeb.Sample
 				Content = imageContent
 			});
 
-			_bookRepository.Add(new Book
+			_bookRepository.Save(new Book
 			{
 				Title = "Атлант расправил плечи",
 				Authors = new[]
@@ -52,7 +52,7 @@ namespace BookEditorWeb.Sample
 
 		private void AddRoadsidePicnicBook()
 		{
-			_bookRepository.Add(new Book
+			_bookRepository.Save(new Book
 			{
 				Title = "Пикник на обочине",
 				Authors = new[]

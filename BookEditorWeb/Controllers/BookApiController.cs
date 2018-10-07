@@ -12,8 +12,8 @@ namespace BookEditorWeb.Controllers
 {
 	public class BookApiController : ApiController
 	{
-		private readonly IBookRepository _bookRepository;
 		private readonly IBookImageRepository _bookImageRepository;
+		private readonly IBookRepository _bookRepository;
 		private readonly BookValidator _bookValidator;
 
 		public BookApiController(IBookRepository bookRepository, IBookImageRepository bookImageRepository, BookValidator bookValidator)
@@ -32,24 +32,14 @@ namespace BookEditorWeb.Controllers
 		}
 
 		[HttpPost]
-		public HttpResponseMessage Add(AddBookRequest request)
+		public HttpResponseMessage Save(Book book)
 		{
-			var book = new Book
-			{
-				Title = request.Title,
-				Authors = request.Authors,
-				NumberOfPages = request.NumberOfPages,
-				Publisher = request.Publisher,
-				PublicationYear = request.PublicationYear,
-				Isbn = request.Isbn,
-				ImageId = request.ImageId
-			};
-
 			ValidationResult validationResult = _bookValidator.Validate(book);
+
 			if (!validationResult.IsValid)
 				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, validationResult.Errors.First());
 
-			_bookRepository.Add(book);
+			_bookRepository.Save(book);
 
 			return Request.CreateResponse(HttpStatusCode.OK);
 		}

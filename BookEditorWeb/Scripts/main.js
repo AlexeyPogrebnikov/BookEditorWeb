@@ -108,7 +108,7 @@ $(function() {
 		return authors;
 	}
 
-	function authorsRawFormatter(cellvalue) {
+	function authorsJsonFormatter(cellvalue) {
 		return JSON.stringify(cellvalue);
 	}
 
@@ -135,8 +135,8 @@ $(function() {
 		];
 
 		if (options.rowId !== "_empty") {
-			const authorsRaw = $("#book-list").getCell(options.rowId, "Authors_Raw");
-			authors = JSON.parse(authorsRaw);
+			const authorsJson = $("#book-list").getCell(options.rowId, "Authors_Json");
+			authors = JSON.parse(authorsJson);
 		}
 
 		authors.forEach(function(author) {
@@ -163,6 +163,12 @@ $(function() {
 		return authors;
 	}
 
+	function viewBookImageInEditor(imageId, imageEditor) {
+		imageEditor.find("#book-image-id").val(imageId);
+		const html = `<img src="/BookImage/GetById/${imageId}" />`;
+		imageEditor.find("#book-image-canvas").html(html);
+	}
+
 	$(document).on("change",
 		"#book-image-file",
 		function() {
@@ -176,15 +182,13 @@ $(function() {
 				contentType: false,
 				processData: false,
 				success: function(data) {
-					const html = `<img src="/BookImage/GetById/${data}" />`;
-					$("#book-image-canvas").html(html);
-					$("#book-image-id").val(data);
+					viewBookImageInEditor(data, $("#book-image-editor"));
 				}
 			});
 		});
 
 	function createImageUploader(value, options) {
-		return `
+		const html = `
 <div>
 	<div id="book-image-editor">
 		<input type="file" id="book-image-file" />
@@ -193,6 +197,13 @@ $(function() {
 	</div>
 </div>
 `;
+		if (options.rowId !== "_empty") {
+			const imageId = $("#book-list").getCell(options.rowId, "ImageId_Json");
+			const element = $(html);
+			viewBookImageInEditor(imageId, element);
+			return element;
+		}
+		return html;
 	}
 
 	function getImageId(elem) {
@@ -206,9 +217,9 @@ $(function() {
 		url: "/api/BookApi/GetAll",
 		datatype: "json",
 		colNames: [
-			"Id", "Заголовок", "Список авторов", "Authors_Raw", "Количество страниц", "Название издательства",
+			"Id", "Заголовок", "Список авторов", "Authors_Json", "Количество страниц", "Название издательства",
 			"Год публикации",
-			"ISBN", "Изображение"
+			"ISBN", "Изображение", "ImageId_Json"
 		],
 		colModel: [
 			{ name: "Id", hidden: true },
@@ -230,10 +241,10 @@ $(function() {
 				editrules: { custom: true, custom_func: validateAuthors }
 			},
 			{
-				name: "Authors_Raw",
+				name: "Authors_Json",
 				jsonmap: "Authors",
 				hidden: true,
-				formatter: authorsRawFormatter
+				formatter: authorsJsonFormatter
 			},
 			{
 				name: "NumberOfPages",
@@ -258,6 +269,11 @@ $(function() {
 				edittype: "custom",
 				editoptions: { custom_element: createImageUploader, custom_value: getImageId },
 				sortable: false
+			},
+			{
+				name: "ImageId_Json",
+				jsonmap: "ImageId",
+				hidden: true
 			}
 		],
 		pager: "#book-list-navigator",
@@ -273,20 +289,23 @@ $(function() {
 		.navGrid("#book-list-navigator",
 			{ view: true, del: true, search: false },
 			{
+				url: "/api/BookApi/Save",
 				width: 650,
 				modal: true,
 				left: 100,
 				top: 100,
-				viewPagerButtons: false
+				viewPagerButtons: false,
+				closeAfterEdit: true
 			},
 			{
-				url: "/api/BookApi/Add",
+				url: "/api/BookApi/Save",
 				width: 650,
 				modal: true,
 				left: 100,
 				top: 100,
 				recreateForm: true,
-				errorTextFormat: addBookErrorHandler
+				errorTextFormat: addBookErrorHandler,
+				closeAfterAdd: true
 			},
 			{
 				url: "/api/BookApi/Remove",

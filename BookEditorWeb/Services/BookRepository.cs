@@ -10,13 +10,11 @@ namespace BookEditorWeb.Services
 		private readonly object _syncRoot = new object();
 		private int _currentId = 1;
 
-		public void Add(Book book)
+		public Book GetById(int id)
 		{
 			lock (_syncRoot)
 			{
-				book.Id = _currentId;
-				_books[book.Id] = book;
-				_currentId++;
+				return _books[id];
 			}
 		}
 
@@ -28,19 +26,25 @@ namespace BookEditorWeb.Services
 			}
 		}
 
+		public void Save(Book book)
+		{
+			lock (_syncRoot)
+			{
+				if (book.Id == 0)
+				{
+					book.Id = _currentId;
+					_currentId++;
+				}
+
+				_books[book.Id] = book;
+			}
+		}
+
 		public void Remove(int id)
 		{
 			lock (_syncRoot)
 			{
 				_books.Remove(id);
-			}
-		}
-
-		public Book GetById(int id)
-		{
-			lock (_syncRoot)
-			{
-				return _books[id];
 			}
 		}
 	}
