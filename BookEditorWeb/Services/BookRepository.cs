@@ -4,43 +4,43 @@ using BookEditorWeb.Models;
 
 namespace BookEditorWeb.Services
 {
-	public class BookRepository
+	public class BookRepository : IBookRepository
 	{
-		private static readonly IDictionary<int, Book> Books = new Dictionary<int, Book>();
-		private static readonly object SyncRoot = new object();
-		private static int _currentId = 1;
+		private readonly IDictionary<int, Book> _books = new Dictionary<int, Book>();
+		private readonly object _syncRoot = new object();
+		private int _currentId = 1;
 
 		public void Add(Book book)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
 				book.Id = _currentId;
-				Books[book.Id] = book;
+				_books[book.Id] = book;
 				_currentId++;
 			}
 		}
 
 		public IEnumerable<Book> GetAll()
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				return Books.Values.ToArray();
+				return _books.Values.ToArray();
 			}
 		}
 
 		public void Remove(int id)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				Books.Remove(id);
+				_books.Remove(id);
 			}
 		}
 
 		public Book GetById(int id)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				return Books[id];
+				return _books[id];
 			}
 		}
 	}

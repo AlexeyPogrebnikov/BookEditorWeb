@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using BookEditorWeb.Models;
 using BookEditorWeb.Services;
+using Unity;
 
 namespace BookEditorWeb
 {
@@ -14,15 +15,17 @@ namespace BookEditorWeb
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
+			UnityContainer container = UnityConfig.RegisterComponents();
 			GlobalConfiguration.Configure(WebApiConfig.Register);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			FillSampleData();
+
+			FillSampleData(container);
 		}
 
-		private static void FillSampleData()
+		private static void FillSampleData(UnityContainer container)
 		{
-			var bookRepository = new BookRepository();
-			var bookImageRepository = new BookImageRepository();
+			var bookRepository = container.Resolve<IBookRepository>();
+			var bookImageRepository = container.Resolve<IBookImageRepository>();
 
 			BookImage bookImage = bookImageRepository.Save(new BookImage
 			{

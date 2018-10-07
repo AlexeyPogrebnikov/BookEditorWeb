@@ -12,9 +12,16 @@ namespace BookEditorWeb.Controllers
 {
 	public class BookApiController : ApiController
 	{
-		private readonly BookRepository _bookRepository = new BookRepository();
-		private readonly BookImageRepository _bookImageRepository = new BookImageRepository();
-		private readonly BookValidator _bookValidator = new BookValidator();
+		private readonly IBookRepository _bookRepository;
+		private readonly IBookImageRepository _bookImageRepository;
+		private readonly BookValidator _bookValidator;
+
+		public BookApiController(IBookRepository bookRepository, IBookImageRepository bookImageRepository, BookValidator bookValidator)
+		{
+			_bookRepository = bookRepository;
+			_bookImageRepository = bookImageRepository;
+			_bookValidator = bookValidator;
+		}
 
 		[HttpGet]
 		public IEnumerable<Book> GetAll(string sidx, SortDirection sord)

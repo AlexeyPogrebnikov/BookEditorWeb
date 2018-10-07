@@ -8,7 +8,12 @@ namespace BookEditorWeb.Controllers
 {
 	public class BookImageController : Controller
 	{
-		private readonly BookImageRepository _bookImageRepository = new BookImageRepository();
+		private readonly IBookImageRepository _bookImageRepository;
+
+		public BookImageController(IBookImageRepository bookImageRepository)
+		{
+			_bookImageRepository = bookImageRepository;
+		}
 
 		public ActionResult GetById(int id)
 		{

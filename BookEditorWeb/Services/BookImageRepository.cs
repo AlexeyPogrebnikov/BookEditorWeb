@@ -3,23 +3,23 @@ using BookEditorWeb.Models;
 
 namespace BookEditorWeb.Services
 {
-	public class BookImageRepository
+	public class BookImageRepository : IBookImageRepository
 	{
-		private static readonly IDictionary<int, BookImage> BookImages = new Dictionary<int, BookImage>();
-		private static readonly object SyncRoot = new object();
-		private static int _currentId = 1;
+		private readonly IDictionary<int, BookImage> _bookImages = new Dictionary<int, BookImage>();
+		private readonly object _syncRoot = new object();
+		private int _currentId = 1;
 
 		public BookImage GetById(int id)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				return BookImages[id];
+				return _bookImages[id];
 			}
 		}
 
 		public BookImage Save(BookImage bookImage)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
 				if (bookImage.Id == 0)
 				{
@@ -27,7 +27,7 @@ namespace BookEditorWeb.Services
 					_currentId++;
 				}
 
-				BookImages[bookImage.Id] = bookImage;
+				_bookImages[bookImage.Id] = bookImage;
 			}
 
 			return bookImage;
@@ -35,9 +35,9 @@ namespace BookEditorWeb.Services
 
 		public void Remove(int id)
 		{
-			lock (SyncRoot)
+			lock (_syncRoot)
 			{
-				BookImages.Remove(id);
+				_bookImages.Remove(id);
 			}
 		}
 	}

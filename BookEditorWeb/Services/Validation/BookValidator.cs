@@ -2,7 +2,7 @@
 
 namespace BookEditorWeb.Services.Validation
 {
-	public class BookValidator
+	public class BookValidator : IBookValidator
 	{
 		public ValidationResult Validate(Book book)
 		{
