@@ -1,5 +1,6 @@
 using System.Web.Http;
 using System.Web.Mvc;
+using BookEditorWeb.Sample;
 using BookEditorWeb.Services;
 using Unity;
 using Unity.Lifetime;
@@ -18,6 +19,8 @@ namespace BookEditorWeb
 
 			container.RegisterType<IBookRepository, BookRepository>(new ContainerControlledLifetimeManager());
 			container.RegisterType<IBookImageRepository, BookImageRepository>(new ContainerControlledLifetimeManager());
+			container.RegisterType<IEmbeddedResourceService, EmbeddedResourceService>();
+			container.RegisterType<ISampleDataGenerator, SampleDataGenerator>();
 
 			return container;
 		}
