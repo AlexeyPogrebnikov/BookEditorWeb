@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using BookEditorWeb.Models;
+using BookEditorWeb.Services;
 
-namespace BookEditorWeb.Services
+namespace BookEditorWeb.Repositories
 {
 	public class BookImageRepository : IBookImageRepository
 	{

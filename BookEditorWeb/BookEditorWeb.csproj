@@ -165,17 +165,17 @@
     <Compile Include="Models\DeleteBookRequest.cs" />
     <Compile Include="Models\SortDirection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BookImageRepository.cs" />
-    <Compile Include="Services\BookRepository.cs" />
+    <Compile Include="Repositories\BookImageRepository.cs" />
+    <Compile Include="Repositories\BookRepository.cs" />
+    <Compile Include="Repositories\IBookImageRepository.cs" />
+    <Compile Include="Repositories\IBookRepository.cs" />
     <Compile Include="Services\EmbeddedResourceService.cs" />
-    <Compile Include="Services\IBookImageRepository.cs" />
-    <Compile Include="Services\IBookRepository.cs" />
     <Compile Include="Sample\ISampleDataGenerator.cs" />
     <Compile Include="Sample\SampleDataGenerator.cs" />
     <Compile Include="Services\IEmbeddedResourceService.cs" />
-    <Compile Include="Services\Validation\BookValidator.cs" />
-    <Compile Include="Services\Validation\IBookValidator.cs" />
-    <Compile Include="Services\Validation\ValidationResult.cs" />
+    <Compile Include="Validation\BookValidator.cs" />
+    <Compile Include="Validation\IBookValidator.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

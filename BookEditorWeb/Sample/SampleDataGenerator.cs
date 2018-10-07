@@ -1,4 +1,5 @@
 ﻿using BookEditorWeb.Models;
+using BookEditorWeb.Repositories;
 using BookEditorWeb.Services;
 
 namespace BookEditorWeb.Sample

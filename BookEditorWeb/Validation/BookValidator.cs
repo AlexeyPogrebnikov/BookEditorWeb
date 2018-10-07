@@ -1,6 +1,6 @@
 ﻿using BookEditorWeb.Models;
 
-namespace BookEditorWeb.Services.Validation
+namespace BookEditorWeb.Validation
 {
 	public class BookValidator : IBookValidator
 	{

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BookEditorWeb.Models;
+using BookEditorWeb.Services;
 
-namespace BookEditorWeb.Services
+namespace BookEditorWeb.Repositories
 {
 	public class BookRepository : IBookRepository
 	{

@@ -5,8 +5,9 @@ using System.Net.Http;
 using System.Web.Http;
 using BookEditorWeb.Extensions;
 using BookEditorWeb.Models;
+using BookEditorWeb.Repositories;
 using BookEditorWeb.Services;
-using BookEditorWeb.Services.Validation;
+using BookEditorWeb.Validation;
 
 namespace BookEditorWeb.Controllers
 {

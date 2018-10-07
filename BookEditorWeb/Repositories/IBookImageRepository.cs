@@ -1,6 +1,6 @@
 ﻿using BookEditorWeb.Models;
 
-namespace BookEditorWeb.Services
+namespace BookEditorWeb.Repositories
 {
 	public interface IBookImageRepository
 	{
