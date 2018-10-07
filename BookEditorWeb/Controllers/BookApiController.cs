@@ -13,6 +13,7 @@ namespace BookEditorWeb.Controllers
 	public class BookApiController : ApiController
 	{
 		private readonly BookRepository _bookRepository = new BookRepository();
+		private readonly BookImageRepository _bookImageRepository = new BookImageRepository();
 		private readonly BookValidator _bookValidator = new BookValidator();
 
 		[HttpGet]
@@ -49,6 +50,10 @@ namespace BookEditorWeb.Controllers
 		[HttpPost]
 		public void Remove(DeleteBookRequest request)
 		{
+			Book book = _bookRepository.GetById(request.BookId);
+			if (book.ImageId.HasValue)
+				_bookImageRepository.Remove(book.ImageId.GetValueOrDefault());
+
 			_bookRepository.Remove(request.BookId);
 		}
 	}

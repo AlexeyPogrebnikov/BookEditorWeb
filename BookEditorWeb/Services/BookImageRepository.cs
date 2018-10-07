@@ -32,5 +32,13 @@ namespace BookEditorWeb.Services
 
 			return bookImage;
 		}
+
+		public void Remove(int id)
+		{
+			lock (SyncRoot)
+			{
+				BookImages.Remove(id);
+			}
+		}
 	}
 }

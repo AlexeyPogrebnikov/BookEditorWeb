@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using BookEditorWeb.Models;
 
 namespace BookEditorWeb.Services
 {
 	public class BookRepository
 	{
-		private static readonly IList<Book> Books = new List<Book>();
+		private static readonly IDictionary<int, Book> Books = new Dictionary<int, Book>();
 		private static readonly object SyncRoot = new object();
 		private static int _currentId = 1;
 
@@ -16,7 +15,7 @@ namespace BookEditorWeb.Services
 			lock (SyncRoot)
 			{
 				book.Id = _currentId;
-				Books.Add(book);
+				Books[book.Id] = book;
 				_currentId++;
 			}
 		}
@@ -25,20 +24,23 @@ namespace BookEditorWeb.Services
 		{
 			lock (SyncRoot)
 			{
-				return Books;
+				return Books.Values.ToArray();
 			}
-		}
-
-		private static string GetBookImagePath(int bookId)
-		{
-			return HttpContext.Current.Server.MapPath($"~/Content/img/books/{bookId}.jpg");
 		}
 
 		public void Remove(int id)
 		{
 			lock (SyncRoot)
 			{
-				Books.Remove(Books.FirstOrDefault(book => book.Id == id));
+				Books.Remove(id);
+			}
+		}
+
+		public Book GetById(int id)
+		{
+			lock (SyncRoot)
+			{
+				return Books[id];
 			}
 		}
 	}
