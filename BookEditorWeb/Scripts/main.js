@@ -49,11 +49,11 @@ $(function() {
 		}
 
 		if (!isInteger(value)) {
-			return [false, "Год публикации должен быть целым числом"];
+			return [false, "Год публикации: Поле должно быть целым числом"];
 		}
 		const publicationYear = parseInt(value);
 		if (publicationYear < 1800) {
-			return [false, "Год публикации должeн быть не раньше 1800"];
+			return [false, "Год публикации: Поле должно быть не меньше 1800"];
 		}
 		return [true, ""];
 	}

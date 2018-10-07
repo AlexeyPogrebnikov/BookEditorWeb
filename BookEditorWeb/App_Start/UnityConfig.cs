@@ -26,6 +26,9 @@ namespace BookEditorWeb
 			container.RegisterType<IBookValidator, BookValidator>();
 			container.RegisterType<IBookPropertyValidator, BookTitleValidator>("Title");
 			container.RegisterType<IBookPropertyValidator, BookAuthorsValidator>("Authors");
+			container.RegisterType<IBookPropertyValidator, BookNumberOfPagesValidator>("NumberOfPages");
+			container.RegisterType<IBookPropertyValidator, BookPublisherValidator>("Publisher");
+			container.RegisterType<IBookPropertyValidator, BookPublicationYearValidator>("PublicationYear");
 
 			return container;
 		}
