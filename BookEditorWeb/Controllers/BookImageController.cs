@@ -32,11 +32,11 @@ namespace BookEditorWeb.Controllers
 
 			BookImage bookImage = _bookImageRepository.Save(new BookImage
 			{
-				Id = imageId.GetValueOrDefault(),
+				BookImageId = imageId.GetValueOrDefault(),
 				Content = bytes
 			});
 
-			return Content(JsonConvert.SerializeObject(bookImage.Id));
+			return Content(JsonConvert.SerializeObject(bookImage.BookImageId));
 		}
 	}
 }

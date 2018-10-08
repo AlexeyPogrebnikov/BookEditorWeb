@@ -2,7 +2,7 @@
 {
 	public class BookImage
 	{
-		public int Id { get; set; }
+		public int BookImageId { get; set; }
 
 		public byte[] Content { get; set; }
 	}

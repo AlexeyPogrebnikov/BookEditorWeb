@@ -45,7 +45,7 @@ namespace BookEditorWeb.Sample
 				Publisher = "Альпина Паблишер",
 				PublicationYear = 2018,
 				Isbn = "978-5-9614-4579-4",
-				ImageId = bookImage.Id
+				ImageId = bookImage.BookImageId
 			});
 		}
 
@@ -98,7 +98,7 @@ namespace BookEditorWeb.Sample
 				Publisher = "Вильямс",
 				PublicationYear = 2016,
 				Isbn = "978-5-8459-1959-5",
-				ImageId = bookImage.Id
+				ImageId = bookImage.BookImageId
 			});
 		}
 
@@ -121,7 +121,7 @@ namespace BookEditorWeb.Sample
 				Publisher = "Microsoft Press",
 				PublicationYear = 2017,
 				Isbn = "978-5-7502-0064-1",
-				ImageId = bookImage.Id
+				ImageId = bookImage.BookImageId
 			});
 		}
 
@@ -159,7 +159,7 @@ namespace BookEditorWeb.Sample
 				Publisher = "Addison Wesley",
 				PublicationYear = 1994,
 				Isbn = "978-0-2016-3361-0",
-				ImageId = bookImage.Id
+				ImageId = bookImage.BookImageId
 			});
 		}
 

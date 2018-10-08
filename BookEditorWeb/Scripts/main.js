@@ -18,6 +18,7 @@ $(function() {
 				.toString(16)
 				.substring(1);
 		}
+
 		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 	}
 
@@ -152,7 +153,7 @@ $(function() {
 
 	$(document).on("click",
 		".add-author",
-		function () {
+		function() {
 			addAuthorRow($("#author-editor"), $(this).parent());
 		});
 
@@ -284,12 +285,12 @@ $(function() {
 		url: "/api/BookApi/GetAll",
 		datatype: "json",
 		colNames: [
-			"Id", "Заголовок", "Список авторов", "Authors_Json", "Количество страниц", "Название издательства",
+			"BookId", "Заголовок", "Список авторов", "Authors_Json", "Количество страниц", "Название издательства",
 			"Год публикации",
 			"ISBN", "Изображение", "ImageId_Json"
 		],
 		colModel: [
-			{ name: "Id", hidden: true },
+			{ name: "BookId", hidden: true, editable: true, editrules: { edithidden: false } },
 			{
 				name: "Title",
 				index: "Title",
@@ -384,7 +385,7 @@ $(function() {
 			{
 				url: "/api/BookApi/Remove",
 				onclickSubmit: function(params, index) {
-					const bookId = $("#book-list").getCell(index, "Id");
+					const bookId = $("#book-list").getCell(index, "BookId");
 					return { bookId: bookId };
 				}
 			});

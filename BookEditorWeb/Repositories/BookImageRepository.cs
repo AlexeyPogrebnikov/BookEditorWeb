@@ -22,13 +22,13 @@ namespace BookEditorWeb.Repositories
 		{
 			lock (_syncRoot)
 			{
-				if (bookImage.Id == 0)
+				if (bookImage.BookImageId == 0)
 				{
-					bookImage.Id = _currentId;
+					bookImage.BookImageId = _currentId;
 					_currentId++;
 				}
 
-				_bookImages[bookImage.Id] = bookImage;
+				_bookImages[bookImage.BookImageId] = bookImage;
 			}
 
 			return bookImage;

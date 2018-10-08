@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BookEditorWeb.Models;
-using BookEditorWeb.Services;
 
 namespace BookEditorWeb.Repositories
 {
@@ -31,13 +30,13 @@ namespace BookEditorWeb.Repositories
 		{
 			lock (_syncRoot)
 			{
-				if (book.Id == 0)
+				if (book.BookId == 0)
 				{
-					book.Id = _currentId;
+					book.BookId = _currentId;
 					_currentId++;
 				}
 
-				_books[book.Id] = book;
+				_books[book.BookId] = book;
 			}
 		}
 
