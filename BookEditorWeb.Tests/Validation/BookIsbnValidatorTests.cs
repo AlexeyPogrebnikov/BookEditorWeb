@@ -30,7 +30,7 @@ namespace BookEditorWeb.Tests.Validation
 			// assert
 			string[] errors = validationResult.Errors.ToArray();
 			Assert.AreEqual(1, errors.Length);
-			Assert.AreEqual("Isbn: Длина поля должна быть 17 символов", errors[0]);
+			Assert.AreEqual("ISBN: Длина поля должна быть 17 символов", errors[0]);
 		}
 
 		[Test]
@@ -62,7 +62,7 @@ namespace BookEditorWeb.Tests.Validation
 			// assert
 			string[] errors = validationResult.Errors.ToArray();
 			Assert.AreEqual(1, errors.Length);
-			Assert.AreEqual("Isbn: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)", errors[0]);
+			Assert.AreEqual("ISBN: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)", errors[0]);
 		}
 
 		[Test]
@@ -94,7 +94,7 @@ namespace BookEditorWeb.Tests.Validation
 			// assert
 			string[] errors = validationResult.Errors.ToArray();
 			Assert.AreEqual(1, errors.Length);
-			Assert.AreEqual("Isbn: Неверная контрольная сумма", errors[0]);
+			Assert.AreEqual("ISBN: Неверная контрольная сумма", errors[0]);
 		}
 	}
 }

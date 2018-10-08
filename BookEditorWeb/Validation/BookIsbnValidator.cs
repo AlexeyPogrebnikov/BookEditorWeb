@@ -16,18 +16,18 @@ namespace BookEditorWeb.Validation
 
 			if (isbn.Length != 17)
 			{
-				validationResult.AddError("Isbn: Длина поля должна быть 17 символов");
+				validationResult.AddError("ISBN: Длина поля должна быть 17 символов");
 				return;
 			}
 
 			if (!IsbnRegex.IsMatch(isbn))
 			{
-				validationResult.AddError("Isbn: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)");
+				validationResult.AddError("ISBN: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)");
 				return;
 			}
 
 			if (!ValidCheckSum(isbn))
-				validationResult.AddError("Isbn: Неверная контрольная сумма");
+				validationResult.AddError("ISBN: Неверная контрольная сумма");
 		}
 
 		private static bool ValidCheckSum(string isbn)

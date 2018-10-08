@@ -95,16 +95,16 @@ $(function() {
 		}
 
 		if (value.length !== 17) {
-			return [false, "Isbn: Длина поля должна быть 17 символов"];
+			return [false, "ISBN: Длина поля должна быть 17 символов"];
 		}
 
 		let testFormat = /^\d\d\d-\d-\d\d\d\d-\d\d\d\d-\d$/.test(value);
 		if (!testFormat) {
-			return [false, "Isbn: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)"];
+			return [false, "ISBN: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)"];
 		}
 
 		if (!isValidIsbnCheckSum(value)) {
-			return [false, "Isbn: Неверная контрольная сумма"];
+			return [false, "ISBN: Неверная контрольная сумма"];
 		}
 
 		return [true, ""];
