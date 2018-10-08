@@ -29,6 +29,7 @@ namespace BookEditorWeb
 			container.RegisterType<IBookPropertyValidator, BookNumberOfPagesValidator>("NumberOfPages");
 			container.RegisterType<IBookPropertyValidator, BookPublisherValidator>("Publisher");
 			container.RegisterType<IBookPropertyValidator, BookPublicationYearValidator>("PublicationYear");
+			container.RegisterType<IBookPropertyValidator, BookIsbnValidator>("Isbn");
 
 			return container;
 		}

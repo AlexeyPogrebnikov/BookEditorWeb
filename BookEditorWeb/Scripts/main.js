@@ -58,6 +58,58 @@ $(function() {
 		return [true, ""];
 	}
 
+	function isValidIsbnCheckSum(isbn) {
+		let isbnNumbers = [
+			new Number(isbn[0]),
+			new Number(isbn[1]),
+			new Number(isbn[2]),
+			new Number(isbn[4]),
+			new Number(isbn[6]),
+			new Number(isbn[7]),
+			new Number(isbn[8]),
+			new Number(isbn[9]),
+			new Number(isbn[11]),
+			new Number(isbn[12]),
+			new Number(isbn[13]),
+			new Number(isbn[14]),
+			new Number(isbn[16])
+		];
+
+		var checkSum = 0;
+
+		for (let i = 1; i <= isbnNumbers.length; i++) {
+			let isbnNumber = isbnNumbers[i - 1];
+
+			if (i % 2 === 0)
+				checkSum += 3 * isbnNumber;
+			else
+				checkSum += isbnNumber;
+		}
+
+		return checkSum % 10 === 0;
+	}
+
+	function validateIsbn(value) {
+		if (isEmptyOrWhiteSpace(value)) {
+			return [true, ""];
+		}
+
+		if (value.length !== 17) {
+			return [false, "Isbn: Длина поля должна быть 17 символов"];
+		}
+
+		let testFormat = /^\d\d\d-\d-\d\d\d\d-\d\d\d\d-\d$/.test(value);
+		if (!testFormat) {
+			return [false, "Isbn: Неверный формат (xxx-x-xxxx-xxxx-x, где x - число)"];
+		}
+
+		if (!isValidIsbnCheckSum(value)) {
+			return [false, "Isbn: Неверная контрольная сумма"];
+		}
+
+		return [true, ""];
+	}
+
 	function addBookErrorHandler(data) {
 		return data.responseJSON.Message;
 	}
@@ -261,7 +313,13 @@ $(function() {
 				align: "center",
 				editrules: { custom: true, custom_func: validatePublicationYear }
 			},
-			{ name: "Isbn", editable: true, align: "center", sortable: false },
+			{
+				name: "Isbn",
+				editable: true,
+				align: "center",
+				sortable: false,
+				editrules: { custom: true, custom_func: validateIsbn }
+			},
 			{
 				name: "ImageId",
 				editable: true,
