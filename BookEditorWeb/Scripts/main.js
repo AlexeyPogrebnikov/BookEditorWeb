@@ -12,6 +12,15 @@ $(function() {
 		}
 	}
 
+	function guid() {
+		function s4() {
+			return Math.floor((1 + Math.random()) * 0x10000)
+				.toString(16)
+				.substring(1);
+		}
+		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+	}
+
 	function isInteger(str) {
 		return /^\+?(0|[1-9]\d*)$/.test(str);
 	}
@@ -114,7 +123,7 @@ $(function() {
 		return data.responseJSON.Message;
 	}
 
-	function addAuthorRow(container, author) {
+	function addAuthorRow(container, addAfter, author) {
 		const html = `
 <div class="author-editor-row">
 	<div class="author-full-name">
@@ -134,13 +143,17 @@ $(function() {
 			container.append(authorEditorRow);
 			return;
 		}
-		container.append(html);
+		if (addAfter) {
+			addAfter.after(html);
+		} else {
+			container.append(html);
+		}
 	}
 
 	$(document).on("click",
 		".add-author",
-		function() {
-			addAuthorRow($("#author-editor"));
+		function () {
+			addAuthorRow($("#author-editor"), $(this).parent());
 		});
 
 	$(document).on("click",
@@ -166,7 +179,8 @@ $(function() {
 
 	function imageFormatter(cellvalue) {
 		if (cellvalue) {
-			return `<img src="/BookImage/GetById/${cellvalue}" class="book-grid-image" />`;
+			let uuid = guid();
+			return `<img src="/BookImage/GetById/${cellvalue}?${uuid}" class="book-grid-image" />`;
 		}
 		return "";
 	}
@@ -192,7 +206,7 @@ $(function() {
 		}
 
 		authors.forEach(function(author) {
-			addAuthorRow(element.find("#author-editor"), author);
+			addAuthorRow(element.find("#author-editor"), null, author);
 		});
 
 		return element;
@@ -217,7 +231,8 @@ $(function() {
 
 	function viewBookImageInEditor(imageId, imageEditor) {
 		imageEditor.find("#book-image-id").val(imageId);
-		const html = `<img src="/BookImage/GetById/${imageId}" />`;
+		let uuid = guid();
+		const html = `<img src="/BookImage/GetById/${imageId}?${uuid}" />`;
 		imageEditor.find("#book-image-canvas").html(html);
 	}
 
